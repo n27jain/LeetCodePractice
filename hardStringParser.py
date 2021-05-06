@@ -6,43 +6,59 @@ class Solution(object):
         count = 0
         length = len(password)
         lower, upper, digit= self.baseCase(password)
-        
+        # print(lower, upper, digit)
         prevChar = None
         numberConsecutive = 0
         
         for i in range(len(password)):
+            #print(numberConsecutive)
             char = password[i]
             if(prevChar == char):
                 numberConsecutive += 1
                 
-                if(numberConsecutive == 3):
-                    count += 1
-                    # we have 3 in a row
-                    if(i < len(password)-1 and password[i+1] == prevChar):
-                        # there is a 4 sequence so we need to replace we cannot simply remove and must replace
+                if(numberConsecutive == 2):
+                    # print(count)
+                    #we try and replace first
+
+                    if(length < 6): # we should try and add first
+                        length += 1
+                        count += 1
                         if(not lower):
                             lower = True
                         elif(not upper):
                             upper = True
                         elif(not digit):
                             digit = True
-                    else:
-                        # we only have 3 in a row. Replacement is an option
-                        if(length < 6): # we should add
-                            if(not lower):
-                                lower = True
-                            elif(not upper):
-                                upper = True
-                            elif(not digit):
-                                digit = True
-                        elif(length > 20): # we should remove since we are going to have to do this anyways
-                            length -= 1
+                    if(not lower):  # we should try to replace second
+                        lower = True
+                        count += 1
+                    elif(not upper):
+                        upper = True
+                        count += 1
+                    elif(not digit):
+                        digit = True
+                        count += 1
+                    elif(length > 20): # must remove since all other cases have been met
+                        if(i < len(password)- 1 and password[i+1] == prevChar): # not the last char on list and next char matches
+                           i += 1
+                           count += 1
+                           length -=1
+                           while(i <= len(password) - 1 and password[i] == prevChar):
+                               count +=1
+                               i+=1
+                               length -=1
+                        else:
+                            length -=1
+                            count += 1
                     numberConsecutive = 0
-                            
+                    prevChar = None
             else:
                 prevChar = char
                 numberConsecutive = 0
         
+        print(lower, upper, digit, count, length)
+
+
         if(not lower):
             count += 1
             lower = True
@@ -68,8 +84,8 @@ class Solution(object):
         return count
                 
                 
-            
-    def baseCase(password):
+       
+    def baseCase(self, password):
         lower = False
         upper = False
         digit = False
@@ -83,4 +99,5 @@ class Solution(object):
                 digit = True
            
         return lower, upper, digit
+
 
