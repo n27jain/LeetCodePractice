@@ -1,3 +1,9 @@
+# You are climbing a staircase. It takes n steps to reach the top.
+
+# Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+# https://leetcode.com/problems/climbing-stairs/
+
 
 #brute force fib sequence recursion
 class Solution(object):
@@ -20,3 +26,20 @@ class Solution(object):
             first = second 
             second = third
         return second
+
+#using memoization
+class Solution(object):
+    def climbStairs(self, n):
+        dictionary = {}
+        return self.with_memo(n, dictionary)
+
+    def with_memo(self, n, dictionary):
+
+        if(n in dictionary):
+            return dictionary[n]
+        if(n<= 2):
+            dictionary[n] = n
+            return n
+        else:
+            dictionary[n] =  self.with_memo(n-1, dictionary) + self.with_memo(n-2, dictionary)
+            return dictionary[n]
