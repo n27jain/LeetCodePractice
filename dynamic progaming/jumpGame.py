@@ -31,15 +31,16 @@ class Solution(object):
 
 
 import numpy 
-# Tabulation
+# works but takes too long Tabulation
 class Solution(object):
     def canJump(self, nums):
         array = numpy.zeros(len(nums), dtype=bool)
         array[0] = True
-        
+        print(array)
         for i in range(len(array)):
-            # print("i:", i, "nums[i]:", nums[i])
-            if(nums[i]):
+            print("i:", i, "nums[i]:", nums[i])
+            if(array[i]):
+                print(i+1, nums[i]+ i +1 )
                 for j in range(i+1, nums[i]+ i +1):
                     if j >= len(nums):
                         break
